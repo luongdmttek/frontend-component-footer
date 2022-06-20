@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { ensureConfig } from '@edx/frontend-platform/config';
-import { AppContext } from '@edx/frontend-platform/react';
+import { injectIntl, intlShape } from 'frontend-platform-vi/i18n';
+import { sendTrackEvent } from 'frontend-platform-vi/analytics';
+import { ensureConfig } from 'frontend-platform-vi/config';
+import { AppContext } from 'frontend-platform-vi/react';
 
 import messages from './Footer.messages';
 import LanguageSelector from './LanguageSelector';

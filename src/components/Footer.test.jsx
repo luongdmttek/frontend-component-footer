@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
-import { IntlProvider } from '@edx/frontend-platform/i18n';
-import { AppContext } from '@edx/frontend-platform/react';
+import { IntlProvider } from 'frontend-platform-vi/i18n';
+import { AppContext } from 'frontend-platform-vi/react';
 
 import Footer from './Footer';
 
