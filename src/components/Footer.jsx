@@ -1,103 +1,89 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { ensureConfig } from '@edx/frontend-platform/config';
-import { AppContext } from '@edx/frontend-platform/react';
+import messages from "./Footer.messages";
+import IMAGES from "../images";
 
-import messages from './Footer.messages';
-import LanguageSelector from './LanguageSelector';
-
-ensureConfig([
-  'LMS_BASE_URL',
-  'LOGO_TRADEMARK_URL',
-], 'Footer component');
-
-const EVENT_NAMES = {
-  FOOTER_LINK: 'edx.bi.footer.link',
-};
-
-class SiteFooter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.externalLinkClickHandler = this.externalLinkClickHandler.bind(this);
-  }
-
-  getLocalePrefix(locale) {
-    const twoLetterPrefix = locale.substring(0, 2).toLowerCase();
-    if (twoLetterPrefix === 'en') {
-      return '';
-    }
-    return `/${twoLetterPrefix}`;
-  }
-
-  externalLinkClickHandler(event) {
-    const label = event.currentTarget.getAttribute('href');
-    const eventName = EVENT_NAMES.FOOTER_LINK;
-    const properties = {
-      category: 'outbound_link',
-      label,
-    };
-    sendTrackEvent(eventName, properties);
-  }
-
-  render() {
-    const {
-      supportedLanguages,
-      onLanguageSelected,
-      logo,
-      intl,
-    } = this.props;
-    const showLanguageSelector = supportedLanguages.length > 0 && onLanguageSelected;
-    const { config } = this.context;
-
+function FooterContent({intl}) {
     return (
-      <footer
-        role="contentinfo"
-        className="footer d-flex border-top py-3 px-4"
-      >
-        <div className="container-fluid d-flex">
-          <a
-            className="d-block"
-            href={config.LMS_BASE_URL}
-            aria-label={intl.formatMessage(messages['footer.logo.ariaLabel'])}
-          >
-            <img
-              style={{ maxHeight: 45 }}
-              src={logo || config.LOGO_TRADEMARK_URL}
-              alt={intl.formatMessage(messages['footer.logo.altText'])}
-            />
-          </a>
-          <div className="flex-grow-1" />
-          {showLanguageSelector && (
-            <LanguageSelector
-              options={supportedLanguages}
-              onSubmit={onLanguageSelected}
-            />
-          )}
-        </div>
-      </footer>
-    );
-  }
+        <footer className="footer text-white px4 /*footer-content-wrapper*/">
+            <div className="container /*footer-content*/">
+                <div className="py-4">
+                    <img className="/*bottom-logo*/" src={IMAGES.footer_logo} alt='bottom logo'/>
+                </div>
+                <div className="d-flex justify-content-between /*footer-column*/">
+                    <div>
+                        <div>{intl.formatMessage(messages.info)}</div>
+                        <div className="py-1 /*footer-item*/">
+                            <span className="pr-1">
+                                <img src={IMAGES.home_light}/>
+                            </span>
+                            <span className="text-uppercase /*footer-item-text*/">
+                                {intl.formatMessage(messages.name)}
+                            </span>
+                        </div>
+                        <div className="py-1 /*footer-item*/">
+                            <span className="pr-1">
+                                <img src={IMAGES.pin_light}/>
+                            </span>
+                            <span>{intl.formatMessage(messages.address)}</span>
+                        </div>
+                        <div className="py-1 /*footer-item*/">
+                            <span className="pr-1">
+                                <img src={IMAGES.phone_light}/>
+                            </span>
+                            <span>(+84) 28 5445 9998</span>
+                        </div>
+                        <div className="py-1 /*footer-item*/">
+                            <span className="pr-1">
+                                <img src={IMAGES.message_light}/>
+                            </span>
+                            <span>dayhocso@hutech.edu.vn</span>
+                        </div>
+                    </div>
+                    <div className="px-3">
+                        <div>{intl.formatMessage(messages.connect)}</div>
+                        <div className="d-flex flex-nowrap py-1 /*footer-item*/">
+                            <span className="pr-2">
+                                <img src={IMAGES.facebook}/>
+                            </span>
+                            <span>Facebook</span>
+                        </div>
+                        <div className="d-flex flex-nowrap py-1 /*footer-item*/">
+                            <span className="pr-2">
+                                <img src={IMAGES.youtube}/>
+                            </span>
+                            <span>Youtube</span>
+                        </div>
+                        <div className="d-flex flex-nowrap py-1 /*footer-item*/">
+                            <span className="pr-2">
+                                <img src={IMAGES.globe}/>
+                            </span>
+                            <span>Instagram</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>{intl.formatMessage(messages.download)}</div>
+                        <div className="d-flex /*download*/">
+                            <div className="d-flex flex-column pr-2 /*stores*/">
+                                <a className="pb-3" href="https://apps.apple.com/us/app/hutech-x/id1632853626" target="_blank">
+                                    <img src={IMAGES.appstore}/>
+                                </a>
+                                <a className="pt-2" href="https://play.google.com/store/apps/details?id=vn.edu.hutech.lms" target="_blank">
+                                    <img src={IMAGES.googleplay}/>
+                                </a>
+                            </div>
+                            <div className="/*qrcode*/">
+                                <img src={IMAGES.qr_code}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    )
+}
+FooterContent.prototype = {
+    intl: intlShape.isRequired,
 }
 
-SiteFooter.contextType = AppContext;
-
-SiteFooter.propTypes = {
-  intl: intlShape.isRequired,
-  logo: PropTypes.string,
-  onLanguageSelected: PropTypes.func,
-  supportedLanguages: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })),
-};
-
-SiteFooter.defaultProps = {
-  logo: undefined,
-  onLanguageSelected: undefined,
-  supportedLanguages: [],
-};
-
-export default injectIntl(SiteFooter);
-export { EVENT_NAMES };
+export default injectIntl(FooterContent);
