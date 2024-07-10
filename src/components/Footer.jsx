@@ -55,8 +55,8 @@ class SiteFooter extends React.Component {
             aria-label={intl.formatMessage(messages['footer.logo.ariaLabel'])}
           >
             <img
-              style={{ maxHeight: 45 }}
-              src={logo || config.LOGO_TRADEMARK_URL}
+              style={{ maxWidth: 220 }}
+              src='https://d24mgaater58cv.cloudfront.net/images/hutech-elearning-logo-large.png'
               alt={intl.formatMessage(messages['footer.logo.altText'])}
             />
           </a>
